@@ -2,6 +2,9 @@
 
 [Русская версия](README.ru.md)
 
+> **Root for this projector:** <https://github.com/4TuNAs/Allwiner-H723-Obtaining-root-access>.
+> Everything below needs Magisk root from there.
+
 This projector runs a 32-bit Android 14 build on an Allwinner H723 (1 GB RAM, 1280×720 panel) that pretends to be a
 Google **ADT-3**. Out of the box it has a slow vendor launcher, a pile of factory and OTA apps, a Play Store that
 breaks itself on the first self-update, and keystone settings buried in the vendor app.

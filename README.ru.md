@@ -2,6 +2,9 @@
 
 [English version](README.md)
 
+> **Root для этого проектора:** <https://github.com/4TuNAs/Allwiner-H723-Obtaining-root-access>.
+> Всё, что ниже, требует root через Magisk оттуда.
+
 На проекторе стоит 32-битный Android 14 на Allwinner H723 (1 ГБ памяти, панель 1280×720), который выдаёт себя
 за Google **ADT-3**. Из коробки:
 
