@@ -64,7 +64,7 @@ git clone https://github.com/4TuNAs/XGODY-ADT3-New-Launcher
 cd XGODY-ADT3-New-Launcher/deploy
 adb devices                                         # серийный номер или ip:5555
 SERIAL=<серийный или ip:5555> ./deploy.sh --dry-run    # покажет план, ничего не меняет
-SERIAL=<серийный или ip:5555> ./deploy.sh              # установка и 16 проверок в конце
+SERIAL=<серийный или ip:5555> ./deploy.sh              # установка и 17 проверок в конце
 ```
 
 Потом перезагрузите проектор и руками:
@@ -97,7 +97,7 @@ SERIAL=<серийный или ip:5555> ./deploy.sh              # устано
    - ставит скрипты Magisk;
    - включает анимации 0.5× и HDMI-CEC.
 4. На несколько секунд открывает HDMI и ставит режим изображения «Стандарт».
-5. Запускает [`device/verify.sh`](deploy/device/verify.sh): 16 проверок PASS/FAIL.
+5. Запускает [`device/verify.sh`](deploy/device/verify.sh): 17 проверок PASS/FAIL.
 
 ### Откат
 
@@ -138,6 +138,8 @@ Projector. После отката перезагрузите проектор.
 - **Быстрый интерфейс**: все масштабы анимации 0.5×.
 - **Подключить пульт / геймпад**: системный поиск Bluetooth-устройств (обычным приложениям его открывать нельзя).
 
+Кнопка **Settings** на ИК-пульте открывает Projector (см. скрипты Magisk ниже).
+
 Как устроено. Приложение запускает один root-помощник (`app_process`, доступ выдан в Magisk). Помощник загружает
 классы дисплея и tvserver Allwinner прямо из APK родных настроек (`com.mylove.setting`) и вызывает те же сервисы,
 что и родное приложение. Код производителя в репозиторий не копируется, поэтому родные настройки нельзя удалять.
@@ -165,6 +167,7 @@ Projector. После отката перезагрузите проектор.
 | [`cyt-play-pin.sh`](magisk/cyt-play-pin.sh) | Раз в 30 минут: если Google Play сам обновился, удаляет обновление. | `rm /data/adb/service.d/cyt-play-pin.sh`, включить у Play `SafeSelfUpdateService`, перезагрузить |
 | [`cyt-cast.sh`](magisk/cyt-cast.sh) | Держит AirPlay / DLNA запущенными, пока в Projector стоит галка. | `rm /data/adb/service.d/cyt-cast.sh`, перезагрузить |
 | [`cyt-keys.sh`](magisk/cyt-keys.sh) | Пульт в HDMI (см. выше). | снять галку в Projector или удалить скрипт и `/data/adb/cyt/keys`, перезагрузить |
+| [`cyt-settings-key.sh`](magisk/cyt-settings-key.sh) | Кнопка Settings на ИК-пульте открывает Projector (прошивка шлёт её в скрытый экран родных настроек). Следит за ИК-приёмником через `getevent`. | `rm /data/adb/service.d/cyt-settings-key.sh`, перезагрузить |
 
 ## Особенности прошивки
 
@@ -180,8 +183,8 @@ Projector. После отката перезагрузите проектор.
   Для трансляции видео — DLNA (галка AirPlay / DLNA) или приложение Web Video Caster Receiver.
 - **Кнопка питания открывает `com.mylove.setting/.PowerActivity`**: выключить / перезагрузить / выключить экран /
   выключение по таймеру. Если отключить родные настройки целиком, кнопка питания перестаёт работать. Прятать нужно
-  только их значок. Побочный эффект: кнопка **Settings** на ИК-пульте ведёт в родные настройки и после этого ничего
-  не делает. Пользуйтесь «Настройками» в лаунчере.
+  только их значок. Кнопка **Settings** на ИК-пульте тоже ведёт в этот скрытый экран, поэтому
+  `cyt-settings-key.sh` открывает вместо него Projector.
 - **Прошивка стирает службы специальных возможностей при каждой смене окна** (см. выше).
 - **Source и Menu прошивка обрабатывает в `TvWindowManager.interceptKeyBeforeQueueing`.** Source открывает
   `com.softwinner.awsource`. Menu над медиаприложениями рассылает `com.mylove.DISPLAY_SETTINGS`.

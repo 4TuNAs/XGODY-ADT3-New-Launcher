@@ -25,7 +25,7 @@ F=$(sed -n 's/^FACTORY=//p' /data/adb/service.d/cyt-play-pin.sh 2>/dev/null)
 V=$(pm list packages --show-versioncode com.android.vending | sed -n 's/.*versionCode://p' | tr -d '\r')
 check "Google Play at the pinned factory build" $(is "$V" "$F") "now $V, pinned $F"
 check "Play self-update service disabled" $(dumpsys package com.android.vending | awk '/disabledComponents:/{f=1;next} /enabledComponents:|^ *User [0-9]+:/{f=0} f' | grep -c SafeSelfUpdateService)
-for s in cyt-play-pin cyt-cast cyt-keys; do
+for s in cyt-play-pin cyt-cast cyt-keys cyt-settings-key; do
   check "Magisk script $s present and running" $([ -x /data/adb/service.d/$s.sh ] && [ -n "$(pgrep -f "service.d/$s.sh\$")" ] && echo 1 || echo 0)
 done
 check "Remote-in-HDMI flag set" $([ -f /data/adb/cyt/keys ] && echo 1 || echo 0)

@@ -67,9 +67,10 @@ su -c pm disable com.mylove.setting/.MainActivity
 
 Power-on mode (on with mains power / standby): `ITvServer.factorySetPowerMode(0|1|2)`.
 
-Side effect of hiding the vendor app's launcher entry: the IR remote's **Settings** key (`KEYCODE_SETTINGS`), which
-the firmware sends to `com.mylove.setting/.MainActivity`, does nothing. Use Settings in the launcher instead, or
-`pm enable` that activity again if you want the key (the vendor app then shows up in the app list).
+Hiding the vendor app's launcher entry also cuts the IR remote's **Settings** key (`KEYCODE_SETTINGS`), which the
+firmware sends to `com.mylove.setting/.MainActivity` (and logs `ActivityNotFoundException`). No app can intercept
+it, so `magisk/cyt-settings-key.sh` reads the IR receiver itself (`getevent -ql /dev/input/eventN` on `sunxi-ir`,
+Linux `KEY_SETUP`) and opens Projector.
 
 ## Keys the firmware takes before apps
 

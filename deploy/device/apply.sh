@@ -45,20 +45,21 @@ run pm disable com.android.vending/com.google.android.finsky.recoverymode.safese
 [ "$DRY" = 1 ] || sed -i "s/^FACTORY=.*/FACTORY=$V/" $D/magisk/cyt-play-pin.sh
 echo "  pinned versionCode: $V"
 
-say "Magisk boot scripts: Play pin, AirPlay/DLNA, remote in HDMI"
+say "Magisk boot scripts: Play pin, AirPlay/DLNA, remote in HDMI, Settings key"
 run mkdir -p /data/adb/service.d /data/adb/cyt
-for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh; do
+for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh cyt-settings-key.sh; do
   run cp $D/magisk/$s /data/adb/service.d/$s
   run chmod 0755 /data/adb/service.d/$s
 done
 run touch /data/adb/cyt/keys
 BB="$(magisk --path)/.magisk/busybox/busybox"
-for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh; do
+for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh cyt-settings-key.sh; do
   for p in $(pgrep -f "service.d/$s\$"); do run kill -9 $p; done
 done
 for p in $(pgrep -f "resetprop -w sys.lmk_top_app"); do run kill $p 2>/dev/null; done
+for p in $(pgrep -f "getevent -ql /dev/input"); do run kill $p 2>/dev/null; done
 if [ "$DRY" != 1 ]; then
-  for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh; do
+  for s in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh cyt-settings-key.sh; do
     nohup $BB sh /data/adb/service.d/$s >/dev/null 2>&1 &
   done
   sleep 1

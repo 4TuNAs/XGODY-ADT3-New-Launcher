@@ -20,7 +20,7 @@ done
 case "$HOME_WAS" in
   */*) S "pm enable ${HOME_WAS%%/*}; cmd package set-home-activity --user 0 $HOME_WAS" | sed 's/^/  /' ;;
 esac
-S 'su -c "for s in cyt-play-pin cyt-cast cyt-keys; do for p in \$(pgrep -f service.d/\$s.sh\$); do kill -9 \$p; done; rm -f /data/adb/service.d/\$s.sh; done; rm -rf /data/adb/cyt; pm enable com.android.vending/com.google.android.finsky.recoverymode.safeselfupdate.SafeSelfUpdateService; pm enable com.mylove.setting/.MainActivity; pm enable com.mylove.setting/.ui.activity.WifiSettingActivity"'
+S 'su -c "for s in cyt-play-pin cyt-cast cyt-keys cyt-settings-key; do for p in \$(pgrep -f service.d/\$s.sh\$); do kill -9 \$p; done; rm -f /data/adb/service.d/\$s.sh; done; rm -rf /data/adb/cyt; pm enable com.android.vending/com.google.android.finsky.recoverymode.safeselfupdate.SafeSelfUpdateService; pm enable com.mylove.setting/.MainActivity; pm enable com.mylove.setting/.ui.activity.WifiSettingActivity"'
 U=$(S 'pm list packages -U com.homeprojector.settings' | sed -n 's/.*uid://p')
 [ -n "$U" ] && S "su -c \"magisk --sqlite 'DELETE FROM policies WHERE uid=$U'\""
 S 'settings delete secure enabled_accessibility_services; for k in window_animation_scale transition_animation_scale animator_duration_scale; do settings put global $k 1.0; done'

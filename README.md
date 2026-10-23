@@ -59,7 +59,7 @@ git clone https://github.com/4TuNAs/XGODY-ADT3-New-Launcher
 cd XGODY-ADT3-New-Launcher/deploy
 adb devices                                   # note the serial, or ip:5555
 SERIAL=<serial or ip:5555> ./deploy.sh --dry-run   # shows what it would do, changes nothing
-SERIAL=<serial or ip:5555> ./deploy.sh             # does it, then runs 16 checks
+SERIAL=<serial or ip:5555> ./deploy.sh             # does it, then runs 17 checks
 ```
 
 Then reboot and, by hand:
@@ -85,7 +85,7 @@ firmware build it was not tried on; compare first). It can be run again: whateve
    - installs the Magisk boot scripts;
    - sets animations to 0.5× and turns HDMI-CEC on.
 4. Opens HDMI for a few seconds and sets the picture mode to Standard.
-5. Runs [`device/verify.sh`](deploy/device/verify.sh): 16 PASS/FAIL checks.
+5. Runs [`device/verify.sh`](deploy/device/verify.sh): 17 PASS/FAIL checks.
 
 ### Undo
 
@@ -124,6 +124,8 @@ Two panels; Russian or Ukrainian system language gives a Russian UI, anything el
 - **Faster interface**: all animation scales 0.5×.
 - **Pair remote or gamepad**: the system Bluetooth accessory search (normal apps are not allowed to open it).
 
+The **Settings** key on the IR remote opens Projector (see the boot scripts below).
+
 How it works: the app starts one root helper (`app_process`, granted in Magisk) that loads the Allwinner display
 and tv server classes straight from the vendor settings APK (`com.mylove.setting`) and calls the same services the
 vendor app does. Nothing from the vendor is copied into this repo, which is why the vendor app must stay installed.
@@ -149,6 +151,7 @@ vendor app does. Nothing from the vendor is copied into this repo, which is why 
 | [`cyt-play-pin.sh`](magisk/cyt-play-pin.sh) | Every 30 min: if Google Play updated itself, remove the update (factory build). | `rm /data/adb/service.d/cyt-play-pin.sh`, re-enable Play's `SafeSelfUpdateService`, reboot |
 | [`cyt-cast.sh`](magisk/cyt-cast.sh) | Keeps AirPlay / DLNA running while its switch in Projector is on. | `rm /data/adb/service.d/cyt-cast.sh`, reboot |
 | [`cyt-keys.sh`](magisk/cyt-keys.sh) | Remote in HDMI (see above). | switch off in Projector, or `rm` the script and `/data/adb/cyt/keys`, reboot |
+| [`cyt-settings-key.sh`](magisk/cyt-settings-key.sh) | The IR remote's Settings key opens Projector (the firmware sends it to the hidden vendor settings screen). Watches the IR receiver with `getevent`. | `rm /data/adb/service.d/cyt-settings-key.sh`, reboot |
 
 ## Firmware notes
 
@@ -161,8 +164,8 @@ The short version; details and the methods behind them in [docs/vendor-notes.md]
   this device a Cast certificate (provisioning answers 403), so every phone drops the connection at
   authentication. Use DLNA (the AirPlay / DLNA switch) or the Web Video Caster Receiver app.
 - **The power key opens `com.mylove.setting/.PowerActivity`** (power off / restart / screen off / sleep timer).
-  Disabling the whole vendor settings app kills the power key; hide its launcher activity instead. Side effect: the
-  IR remote's **Settings** key, which also goes to the vendor app, then does nothing; use Settings in the launcher.
+  Disabling the whole vendor settings app kills the power key; hide its launcher activity instead. The IR remote's
+  **Settings** key also goes to that hidden screen, so `cyt-settings-key.sh` sends it to Projector.
 - **The firmware wipes accessibility services on every focus change** (see above).
 - **Input/Source and Menu are handled in `TvWindowManager.interceptKeyBeforeQueueing`**: Source opens
   `com.softwinner.awsource`, Menu over media apps broadcasts `com.mylove.DISPLAY_SETTINGS`.

@@ -58,7 +58,7 @@ step "Root part (runs on the projector)"
 S 'rm -rf /data/local/tmp/cyt; mkdir -p /data/local/tmp/cyt/device /data/local/tmp/cyt/magisk'
 push disable.txt /data/local/tmp/cyt/disable.txt
 for f in apply.sh verify.sh; do push "device/$f" "/data/local/tmp/cyt/device/$f"; done
-for f in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh; do push "../magisk/$f" "/data/local/tmp/cyt/magisk/$f"; done
+for f in cyt-play-pin.sh cyt-cast.sh cyt-keys.sh cyt-settings-key.sh; do push "../magisk/$f" "/data/local/tmp/cyt/magisk/$f"; done
 S "su -c 'DRY=$DRY sh /data/local/tmp/cyt/device/apply.sh'"
 
 if [ $PICTURE = 1 ]; then
