@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Проектор</string>
+    <string name="key_service">Проектор: пульт в HDMI</string>
+    <string name="key_service_description">В HDMI отправляет «Назад» и «Домой» на приставку по HDMI-CEC; долгое «Назад» — выход из HDMI.</string>
+</resources>

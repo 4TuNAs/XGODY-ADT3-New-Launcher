@@ -1,0 +1,80 @@
+diff --git a/launcher/app/build.gradle b/launcher/app/build.gradle
+index cd5aac4..babaea1 100644
+--- a/launcher/app/build.gradle
++++ b/launcher/app/build.gradle
+@@ -3,6 +3,13 @@ plugins {
+ }
+ 
+ android {
++    // Local change for an Allwinner H723 projector (Android 14) whose package parser rejected a v2-only APK
++    // with INSTALL_PARSE_FAILED_NO_CERTIFICATES: also sign with v1 (JAR). Not part of the upstream repo.
++    signingConfigs {
++        debug {
++            enableV1Signing true
++        }
++    }
+     namespace 'com.gathin.tvhome'
+     compileSdk 34
+ 
+diff --git a/launcher/app/src/main/res/values/config.xml b/launcher/app/src/main/res/values/config.xml
+index f600676..7cb6d6d 100644
+--- a/launcher/app/src/main/res/values/config.xml
++++ b/launcher/app/src/main/res/values/config.xml
+@@ -17,10 +17,10 @@
+ 
+     <!-- Apps pinned to the dock row at the bottom, in this order. Missing apps are skipped. -->
+     <string-array name="dock_apps">
+-        <item>com.netflix.ninja</item>
+-        <item>com.amazon.amazonvideo.livingroom</item>
+         <item>com.google.android.youtube.tv</item>
+-        <item>in.startv.hotstar</item>
++        <item>com.kyivstar.tv.androidtv</item>
++        <item>com.netflix.mediaclient</item>
++        <item>com.homeprojector.settings</item>
+     </string-array>
+     <!-- With fewer dock_apps than columns (or a dock app that is not installed), the free dock slots take
+          the first grid apps, so the dock never shows a gap. false leaves them empty (#162); a theme can
+@@ -34,7 +34,7 @@
+     </string-array>
+ 
+     <!-- The TV's Live TV / tuner app, offered at the end of the Inputs menu. Leave empty to omit. -->
+-    <string name="live_tv_package" translatable="false">com.mediatek.wwtv.tvcenter</string>
++    <string name="live_tv_package" translatable="false"></string>
+ 
+     <!-- Open the Live TV app above the first time Home comes up after the TV is switched on, for sets that are
+          mostly used for broadcast TV. Once per boot: Home after that stays Home. Can also be set with
+@@ -72,7 +72,7 @@
+          offers one row that starts this service: component first, then action. The component can also be an
+          activity, for sets whose panel is a dialog (BYINTEK U4). With no Live TV app either, the Inputs pill
+          opens the panel directly instead of a menu. Leave empty to omit. -->
+-    <string name="source_panel_service" translatable="false"></string>
++    <string name="source_panel_service" translatable="false">com.softwinner.awsource/.MainActivity</string>
+     <string name="source_panel_action" translatable="false"></string>
+     <!-- One int extra sent with the source panel intent, "name=value". Coocaa OS (Skyworth, China) needs
+          control_center_command=100 for its control center to open on the source row, as the remote's
+@@ -211,7 +211,7 @@
+     <!-- The Inputs pill as a round icon button too (the label moves to the talkback description). -->
+     <bool name="icon_only_inputs">false</bool>
+     <!-- The app library as a round button in the top bar, beside Settings (app_library must be on too). -->
+-    <bool name="library_button">false</bool>
++    <bool name="library_button">true</bool>
+     <!-- With icon_only_buttons: keep the network name on the Wi-Fi pill up to this width in dp, cut with an ellipsis.
+          0 leaves the Wi-Fi pill as an icon. -->
+     <integer name="wifi_label_width">0</integer>
+@@ -258,7 +258,7 @@
+     <bool name="show_home_settings_shortcut">false</bool>
+ 
+     <!-- Installed launchable apps, including ordinary Android apps. Also settable in config.json. -->
+-    <bool name="app_library">false</bool>
++    <bool name="app_library">true</bool>
+ 
+     <!-- Apps pre-seeded into the App library's "added" set at startup (config.xml library_apps, or a theme's
+          config.json). They show on Home as if the owner had added them in the App library UI, and stay
+@@ -266,6 +266,7 @@
+          (many China-market TVs, e.g. Coocaa 8R145), a fresh Home with app_library on would otherwise be
+          nearly empty. Empty (off) by default, so existing setups change nothing. -->
+     <string-array name="library_apps" translatable="false">
++        <item>com.netflix.mediaclient</item>
+     </string-array>
+ 
+     <!-- Module cards: an app that declares a card (docs/specs/card.md) can stand in for its tile with its own

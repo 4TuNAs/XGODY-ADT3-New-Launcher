@@ -1,0 +1,50 @@
+# Packages the deploy disables (pm disable-user, nothing removed). One per line; # starts a comment.
+# Factory test and logging
+com.bsw.producttest
+com.softwinner.agingdragonbox
+com.softwinner.dragonbox
+com.softwinner.awlogsettings
+# Vendor store, after-sales, stock launcher, OTA and first-boot setup
+com.mylove.store
+com.mylove.aftersalesservice
+com.mylove.ui
+com.mylove.osota
+com.softwinner.update
+com.softwinner.settingsassist
+com.softwinner.provision
+com.softwinner.settingssetup
+# Stock players and file manager (VLC covers them)
+com.softwinner.TvdVideo
+com.softwinner.music
+com.softwinner.imageParser
+com.softwinner.TvdFileManager
+com.android.gallery3d
+# Vendor extras that were already off on the first unit
+com.oranth.accessibility
+com.toofifi.lineserver
+com.mphotool.usbcastserver
+com.android.mtp
+# Unused AOSP parts
+com.android.musicfx
+com.android.dreams.web
+com.android.wallpaperbackup
+com.android.wallpapercropper
+com.android.bips
+com.android.htmlviewer
+com.android.soundpicker
+com.android.calculator2
+com.android.traceur
+com.android.providers.userdictionary
+com.android.providers.blockednumber
+com.android.bluetoothmidiservice
+com.android.hotspot2.osulogin
+com.android.localtransport
+com.android.backupconfirm
+com.android.sharedstoragebackup
+com.android.managedprovisioning
+com.android.dynsystem
+com.android.cts.ctsshim
+com.android.cts.priv.ctsshim
+com.google.android.onetimeinitializer
+org.chromium.webview_shell
+com.google.android.apps.searchlite.overlay

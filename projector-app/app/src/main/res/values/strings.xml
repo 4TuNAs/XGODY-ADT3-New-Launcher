@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Projector</string>
+    <string name="key_service">Projector: remote in HDMI</string>
+    <string name="key_service_description">Sends Back and Home to the box on HDMI over HDMI-CEC; a long Back leaves HDMI.</string>
+</resources>
