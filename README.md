@@ -1,7 +1,5 @@
 # XGODY Gimbal 3 Pro ("ADT-3", Allwinner H723): new launcher, projector settings app, setup scripts
 
-[Русская версия](README.ru.md)
-
 > **Root for this projector:** <https://github.com/4TuNAs/Allwiner-H723-Obtaining-root-access>.
 > Everything below needs Magisk root from there.
 
